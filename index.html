@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
+    <title>Professional Calculator</title>
     <style>
-        /* Midnight Cyber Theme */
+        /* 1. CSS Variables for easy theme management */
+        :root {
+            --bg-body: radial-gradient(circle at top left, #1e1b4b, #000000);
+            --bg-calc: linear-gradient(145deg, #2a2d34, #23252b);
+            --bg-screen: #0d1117;
+            --btn-bg: linear-gradient(145deg, #363a45, #2d3039);
+            --btn-bg-hover: linear-gradient(145deg, #404552, #333742);
+            --btn-equal-bg: linear-gradient(145deg, #10b981, #059669);
+            --btn-equal-hover: linear-gradient(145deg, #34d399, #10b981);
+            
+            --text-heading: #a5b4fc;
+            --text-screen: #22c55e;
+            --text-num: #22c55e;
+            --text-op: #38bdf8;
+            --text-clear: #fb7185;
+            --text-equal: #000000;
+            --text-btn: #e2e8f0;
+        }
+
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
@@ -13,8 +31,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Changed from pure black to a deep violet/blue radial gradient */
-            background: radial-gradient(circle at top left, #1e1b4b, #000000); 
+            background: var(--bg-body); 
             margin: 0;
             color: #ffffff;
         }
@@ -24,17 +41,15 @@
             font-size: 28px;
             font-weight: 300;
             letter-spacing: 4px;
-            color: #a5b4fc; /* Soft blue-violet heading */
+            color: var(--text-heading);
             text-shadow: 0px 2px 10px rgba(165, 180, 252, 0.2);
         }
 
         .calculator {
-            background: linear-gradient(145deg, #2a2d34, #23252b); /* Slate gray */
+            background: var(--bg-calc);
             padding: 30px;
             border-radius: 24px;
-            box-shadow: 
-                15px 15px 40px rgba(0, 0, 0, 0.9), 
-                -5px -5px 20px rgba(99, 102, 241, 0.05); /* Slight purple glow on edge */
+            box-shadow: 15px 15px 40px rgba(0, 0, 0, 0.9), -5px -5px 20px rgba(99, 102, 241, 0.05);
             border: 1px solid #3f4451;
             width: 320px;
         }
@@ -50,12 +65,10 @@
             border-radius: 12px;
             padding: 15px;
             box-sizing: border-box;
-            background-color: #0d1117; /* Very dark midnight blue screen */
-            color: #00ff00; /* Kept the glowing green text */
-            text-shadow: 0 0 12px rgba(0, 255, 0, 0.7); 
-            box-shadow: 
-                inset 5px 5px 15px rgba(0,0,0,1), 
-                inset -2px -2px 10px rgba(255,255,255,0.03);
+            background-color: var(--bg-screen);
+            color: var(--text-screen);
+            text-shadow: 0 0 12px rgba(34, 197, 94, 0.5); 
+            box-shadow: inset 5px 5px 15px rgba(0,0,0,1), inset -2px -2px 10px rgba(255,255,255,0.03);
             outline: none;
         }
 
@@ -70,59 +83,51 @@
             font-size: 22px;
             border: none;
             border-radius: 14px;
-            background: linear-gradient(145deg, #363a45, #2d3039); /* Dark metallic buttons */
-            color: #e2e8f0;
+            background: var(--btn-bg);
+            color: var(--text-btn);
             cursor: pointer;
-            box-shadow: 
-                5px 5px 10px rgba(0, 0, 0, 0.6), 
-                -2px -2px 8px rgba(255, 255, 255, 0.05);
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -2px -2px 8px rgba(255, 255, 255, 0.05);
             transition: all 0.15s ease;
             font-weight: 600;
+            user-select: none; /* Prevents text highlighting on double tap */
         }
 
         button:active {
             transform: scale(0.94) translateY(2px);
-            box-shadow: 
-                inset 4px 4px 10px rgba(0, 0, 0, 0.7), 
-                inset -2px -2px 5px rgba(255, 255, 255, 0.03);
+            box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.7), inset -2px -2px 5px rgba(255, 255, 255, 0.03);
         }
 
         button:hover {
-            background: linear-gradient(145deg, #404552, #333742);
+            background: var(--btn-bg-hover);
         }
 
-        /* Operator Buttons - Changed to Electric Blue */
-        .operator {
-            color: #38bdf8; 
+        .btn-operator {
+            color: var(--text-op); 
             text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
         }
 
-        /* Number Buttons - Kept Green */
-        .number {
-            color: #22c55e; /* Vibrant Green */
+        .btn-number {
+            color: var(--text-num);
             text-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
         }
 
-        .clear {
-            color: #fb7185; /* Soft neon pink/red for clear */
+        .btn-clear {
+            color: var(--text-clear);
             grid-column: span 2;
         }
 
-        /* Equals Button - Kept Solid Green */
-        .equal {
-            color: #000000;
-            background: linear-gradient(145deg, #10b981, #059669); /* Emerald green */
-            box-shadow: 
-                0px 5px 15px rgba(16, 185, 129, 0.3),
-                inset 2px 2px 5px rgba(255, 255, 255, 0.4);
+        .btn-equal {
+            color: var(--text-equal);
+            background: var(--btn-equal-bg);
+            box-shadow: 0px 5px 15px rgba(16, 185, 129, 0.3), inset 2px 2px 5px rgba(255, 255, 255, 0.4);
             grid-column: span 2;
         }
         
-        .equal:hover {
-            background: linear-gradient(145deg, #34d399, #10b981);
+        .btn-equal:hover {
+            background: var(--btn-equal-hover);
         }
 
-        .equal:active {
+        .btn-equal:active {
             box-shadow: inset 4px 4px 10px rgba(4, 120, 87, 0.8);
         }
     </style>
@@ -132,64 +137,155 @@
     <h1>Simple Calculator</h1>
 
     <div class="calculator">
-        <input type="text" id="display" disabled placeholder="0">
+        <input type="text" id="display" disabled placeholder="0" aria-label="Calculator display">
         
         <div class="buttons">
-            <button class="clear" onclick="clearDisplay()">C</button>
-            <button class="operator" onclick="backspace()">x</button>
-            <button class="operator" onclick="appendToDisplay('/')">÷</button>
+            <button class="btn-clear" data-action="clear">C</button>
+            <button class="btn-operator" data-action="delete">⌫</button>
+            <button class="btn-operator" data-operator="÷">÷</button>
             
-            <button class="number" onclick="appendToDisplay('7')">7</button>
-            <button class="number" onclick="appendToDisplay('8')">8</button>
-            <button class="number" onclick="appendToDisplay('9')">9</button>
-            <button class="operator" onclick="appendToDisplay('*')">*</button>
+            <button class="btn-number" data-number="7">7</button>
+            <button class="btn-number" data-number="8">8</button>
+            <button class="btn-number" data-number="9">9</button>
+            <button class="btn-operator" data-operator="*">*</button>
             
-            <button class="number" onclick="appendToDisplay('4')">4</button>
-            <button class="number" onclick="appendToDisplay('5')">5</button>
-            <button class="number" onclick="appendToDisplay('6')">6</button>
-            <button class="operator" onclick="appendToDisplay('-')">−</button>
+            <button class="btn-number" data-number="4">4</button>
+            <button class="btn-number" data-number="5">5</button>
+            <button class="btn-number" data-number="6">6</button>
+            <button class="btn-operator" data-operator="-">−</button>
             
-            <button class="number" onclick="appendToDisplay('1')">1</button>
-            <button class="number" onclick="appendToDisplay('2')">2</button>
-            <button class="number" onclick="appendToDisplay('3')">3</button>
-            <button class="operator" onclick="appendToDisplay('+')">+</button>
+            <button class="btn-number" data-number="1">1</button>
+            <button class="btn-number" data-number="2">2</button>
+            <button class="btn-number" data-number="3">3</button>
+            <button class="btn-operator" data-operator="+">+</button>
             
-            <button class="number" onclick="appendToDisplay('0')">0</button>
-            <button class="number" onclick="appendToDisplay('.')">.</button>
-            <button class="equal" onclick="calculate()">=</button>
+            <button class="btn-number" data-number="0">0</button>
+            <button class="btn-number" data-number=".">.</button>
+            <button class="btn-equal" data-action="calculate">=</button>
         </div>
     </div>
 
     <script>
-        const display = document.getElementById('display');
+        /**
+         * Calculator Class handles all mathematical logic and state management.
+         * This removes the need for the dangerous eval() function.
+         */
+        class Calculator {
+            constructor(displayElement) {
+                this.displayElement = displayElement;
+                this.clear();
+            }
 
-        function appendToDisplay(input) {
-            display.value += input;
-        }
+            clear() {
+                this.currentOperand = '0';
+                this.previousOperand = '';
+                this.operation = undefined;
+                this.updateDisplay();
+            }
 
-        function clearDisplay() {
-            display.value = '';
-        }
-
-        function backspace() {
-            display.value = display.value.slice(0, -1);
-        }
-
-        function calculate() {
-            try {
-                if (display.value === '') return;
+            delete() {
+                if (this.currentOperand === 'Error') return this.clear();
                 
-                const result = eval(display.value);
-                
-                if (!isFinite(result)) {
-                    display.value = "Error";
+                if (this.currentOperand.length === 1) {
+                    this.currentOperand = '0';
                 } else {
-                    display.value = result;
+                    this.currentOperand = this.currentOperand.slice(0, -1);
                 }
-            } catch (error) {
-                display.value = 'Error';
+                this.updateDisplay();
+            }
+
+            appendNumber(number) {
+                if (this.currentOperand === 'Error') this.clear();
+                // Prevent multiple decimals
+                if (number === '.' && this.currentOperand.includes('.')) return;
+                
+                // Replace initial 0, unless adding a decimal
+                if (this.currentOperand === '0' && number !== '.') {
+                    this.currentOperand = number;
+                } else {
+                    this.currentOperand += number;
+                }
+                this.updateDisplay();
+            }
+
+            chooseOperation(operation) {
+                if (this.currentOperand === 'Error') return;
+                if (this.currentOperand === '') return;
+                
+                // If there's already a pending operation, compute it first
+                if (this.previousOperand !== '') {
+                    this.compute();
+                }
+                this.operation = operation;
+                this.previousOperand = this.currentOperand;
+                this.currentOperand = '';
+            }
+
+            compute() {
+                let computation;
+                const prev = parseFloat(this.previousOperand);
+                const current = parseFloat(this.currentOperand);
+                
+                if (isNaN(prev) || isNaN(current)) return;
+
+                switch (this.operation) {
+                    case '+': computation = prev + current; break;
+                    case '-': computation = prev - current; break;
+                    case '*': computation = prev * current; break;
+                    case '÷':
+                    case '/': 
+                        if (current === 0) {
+                            this.triggerError();
+                            return;
+                        }
+                        computation = prev / current; 
+                        break;
+                    default: return;
+                }
+
+                // Handle standard JS floating point precision issues (e.g. 0.1 + 0.2 = 0.30000000000000004)
+                computation = Math.round(computation * 100000000) / 100000000;
+
+                this.currentOperand = computation.toString();
+                this.operation = undefined;
+                this.previousOperand = '';
+                this.updateDisplay();
+            }
+
+            triggerError() {
+                this.currentOperand = 'Error';
+                this.operation = undefined;
+                this.previousOperand = '';
+                this.updateDisplay();
+            }
+
+            updateDisplay() {
+                this.displayElement.value = this.currentOperand;
             }
         }
-    </script>
-</body>
-</html>
+
+        // --- Initialization and Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const display = document.getElementById('display');
+            const calculator = new Calculator(display);
+
+            // Event Delegation: Listen on the parent container instead of individual buttons
+            const buttonsContainer = document.querySelector('.buttons');
+            
+            buttonsContainer.addEventListener('click', (e) => {
+                const target = e.target;
+                if (target.tagName !== 'BUTTON') return;
+
+                if (target.hasAttribute('data-number')) {
+                    calculator.appendNumber(target.getAttribute('data-number'));
+                } 
+                else if (target.hasAttribute('data-operator')) {
+                    calculator.chooseOperation(target.getAttribute('data-operator'));
+                } 
+                else if (target.getAttribute('data-action') === 'clear') {
+                    calculator.clear();
+                } 
+                else if (target.getAttribute('data-action') === 'delete') {
+                    calculator.delete();
+                } 
+                else if (target.getAttribute('data-action
